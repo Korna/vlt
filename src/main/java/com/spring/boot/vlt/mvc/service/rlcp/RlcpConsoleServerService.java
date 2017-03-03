@@ -1,16 +1,18 @@
-package com.spring.boot.vlt.mvc.service;
+package com.spring.boot.vlt.mvc.service.rlcp;
 
+import com.spring.boot.vlt.config.property.VltSettings;
 import com.spring.boot.vlt.mvc.model.Trial;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import rlcp.RlcpRequestBody;
 import rlcp.calculate.CalculatingResult;
 import rlcp.calculate.RlcpCalculateRequestBody;
 import rlcp.calculate.RlcpCalculateResponseBody;
-import rlcp.check.*;
+import rlcp.check.CheckingResult;
+import rlcp.check.RlcpCheckRequestBody;
+import rlcp.check.RlcpCheckResponseBody;
 import rlcp.generate.GeneratingResult;
 import rlcp.generate.RlcpGenerateRequestBody;
 import rlcp.generate.RlcpGenerateResponseBody;
@@ -23,7 +25,6 @@ import rlcp.server.processor.factory.ProcessorFactoryContainer;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -36,9 +37,9 @@ public class RlcpConsoleServerService {
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
     @Autowired
-    private Environment env;
-    @Autowired
     private Trial trial;
+    @Autowired
+    private VltSettings vltSettings;
 
     public GeneratingResult getGenerateForConsole(String algorithm) throws Exception {
         RlcpGenerateRequestBody requestBody = new RlcpGenerateRequestBody(algorithm);
@@ -114,7 +115,7 @@ public class RlcpConsoleServerService {
     private URI getJarURI() {
         File jarFile = new File(
                 System.getProperty("user.dir") + File.separator +
-                        env.getProperty("paths.uploadedFiles") +
+                        vltSettings.getPathsUploadedFiles() +
                         File.separator + trial.getVl().getDirName() + File.separator + "server" + File.separator + "server.jar");
         if (jarFile.exists()) {
             return jarFile.toURI();

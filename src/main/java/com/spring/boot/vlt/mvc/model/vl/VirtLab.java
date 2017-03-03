@@ -2,8 +2,6 @@ package com.spring.boot.vlt.mvc.model.vl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.env.Environment;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
