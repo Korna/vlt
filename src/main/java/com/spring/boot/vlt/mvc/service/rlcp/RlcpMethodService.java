@@ -62,7 +62,7 @@ public class RlcpMethodService {
         return result;
     }
 
-    public RlcpCheckResponse getCheck(@RequestBody String instructions) {
+    public List<CheckingResult> getCheck(@RequestBody String instructions) {
         RlcpCheckResponse rlcpResponse = null;
         if (trial.isConnect()) {
             RlcpCheckRequestBody rlcpRequestBody = new RlcpCheckRequestBody(
@@ -86,6 +86,6 @@ public class RlcpMethodService {
                     "\t\ttext: \"" + trial.getGeneratingResult().getText() + "\",\n" +
                     "\t\tinstraction: \"" + trial.getGeneratingResult().getInstructions() + "\"}}");
         }
-        return rlcpResponse;
+        return results;
     }
 }

@@ -38,6 +38,12 @@ public class LabratoryFrameController {
         return new ModelAndView("startVl");
     }
 
+    @RequestMapping(value = "/start_console_vl/{dirName}/{frameId}", method = RequestMethod.GET, produces = "application/json")
+    public ModelAndView startConsoleVl(@PathVariable("dirName") String dirName, @PathVariable("frameId") String frameId) {
+        trial.setFraimeId(frameId);
+        return new ModelAndView("startVl");
+    }
+
     @RequestMapping(value = "/get_property/{dirName}/{frameId}", method = RequestMethod.GET, produces = "application/json")
     public ResponseEntity<String> getNameVl(@PathVariable("dirName") String dirName, @PathVariable("frameId") String frameId) {
         laboratoryFrameService.setDirName(dirName);

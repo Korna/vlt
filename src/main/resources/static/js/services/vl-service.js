@@ -91,8 +91,8 @@ vl.factory('VlService', function ($http, $q) {
           });
     },
 
-    generate: (algorithm) => {
-      return $http.post('/VLT/get_generate', algorithm)
+    generate: (algorithm, isConsole) => {
+      return $http.post(isConsole? '/VLT/get_generate_console' : '/VLT/get_generate', algorithm)
         .then(res => {
             return res.data;
           },
@@ -111,8 +111,8 @@ vl.factory('VlService', function ($http, $q) {
           });
     },
 
-    check: (result) => {
-      return $http.post('/VLT/get_check', result)
+    check: (result, isConsole) => {
+      return $http.post(isConsole? '/VLT/get_check_console' : '/VLT/get_check', result)
         .then(res => {
             return res.data;
           },

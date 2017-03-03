@@ -1,10 +1,11 @@
 var ANT = new Object();
+var isConsole = false;
 
 ANT.calculate = function () {
   var result = Vlab.getResults();
   $.ajax({
     cache: false,
-    url: "/VLT/get_calculate",
+    url: isConsole ? "/VLT/get_calculate_console" : "/VLT/get_calculate",
     global: false,
     type: "POST",
     data: (
@@ -27,4 +28,8 @@ ANT.calculate = function () {
 
   });
 
+};
+
+ANT.setTypeServer = function (isConsole) {
+  type = isConsole;
 }

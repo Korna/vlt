@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import rlcp.calculate.CalculatingResult;
-import rlcp.check.*;
+import rlcp.check.CheckingResult;
 import rlcp.generate.GeneratingResult;
 
 import java.util.List;
@@ -18,6 +18,8 @@ public class RlcpMethodController {
     private Trial trial;
     @Autowired
     private RlcpMethodService rlcpMethodService;
+    @Autowired
+    private RlcpConsoleServerService rlcpConsoleServerService;
 
 
     @RequestMapping(value = "/get_generate", method = RequestMethod.POST)
@@ -25,6 +27,17 @@ public class RlcpMethodController {
         trial.setConnect(true);
         if (trial.getUrl() != null) {
             GeneratingResult result = rlcpMethodService.getGenerate(algorithm);
+            trial.setGeneratingResult(result);
+            return new ResponseEntity<>(result, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.REQUEST_TIMEOUT);
+    }
+
+    @RequestMapping(value = "/get_generate_console", method = RequestMethod.POST)
+    public ResponseEntity<GeneratingResult> getGenerateForConsole(@RequestBody String algorithm) throws Exception {
+        trial.setConnect(true);
+        if (trial.getUrl() != null) {
+            GeneratingResult result = rlcpConsoleServerService.getGenerateForConsole(algorithm);
             trial.setGeneratingResult(result);
             return new ResponseEntity<>(result, HttpStatus.OK);
         }
@@ -45,11 +58,26 @@ public class RlcpMethodController {
         return result;
     }
 
+    @RequestMapping(value = "/get_calculate_console", method = RequestMethod.POST)
+    public ResponseEntity<CalculatingResult> getCalculateForConsole(@RequestParam("instructions") String instructions,
+                                                                    @RequestParam("condition") String condition) throws Exception {
+        CalculatingResult result = rlcpConsoleServerService.getCalculateForConsole(condition, instructions);
+        trial.setCalculatingResult(result);
+        return new ResponseEntity<>(result, HttpStatus.OK);
+    }
+
     @RequestMapping(value = "/get_check", method = RequestMethod.POST)
     public ResponseEntity<List<CheckingResult>> getCheck(@RequestBody String instructions) {
-        RlcpCheckResponse rlcpResponse = rlcpMethodService.getCheck(instructions);
+        List<CheckingResult> results = rlcpMethodService.getCheck(instructions);
         trial.setConnect(false);
-        return new ResponseEntity<>(rlcpResponse.getBody().getResults(), HttpStatus.OK);
+        return new ResponseEntity<>(results, HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/get_check_console", method = RequestMethod.POST)
+    public ResponseEntity<List<CheckingResult>> getCheckForConsole(@RequestBody String instructions) throws Exception {
+        List<CheckingResult> results = rlcpConsoleServerService.getCheckForConsole(instructions);
+        trial.setConnect(false);
+        return new ResponseEntity<>(results, HttpStatus.OK);
     }
 
 }

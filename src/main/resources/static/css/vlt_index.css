@@ -273,7 +273,9 @@ iframe {
   margin-right: 10px;
 }
 
-.start-btn, .check-btn, .repeat-btn, .refresh-btn, .back-btn, .interior-start-btn, .interior-stop-btn, .check-status-server-btn, .interior-start-run {
+.start-btn, .check-btn, .repeat-btn, .refresh-btn, .back-btn,
+.interior-start-btn, .interior-stop-btn, .check-status-server-btn,
+.interior-start-run, .start-console-btn, .check-console-btn {
   float: left;
   box-sizing: border-box;
   font-size: 30px;
@@ -337,7 +339,7 @@ iframe {
   margin-bottom: 0;
 }
 
-.start-btn::before {
+.start-btn::before, .start-console-btn::before {
   content: "\e072";
 }
 
@@ -349,7 +351,7 @@ iframe {
   content: "\e074";
 }
 
-.check-btn::before {
+.check-btn::before, .check-console-btn::before {
   content: "\e013";
 }
 
@@ -395,6 +397,16 @@ iframe {
 #start-btn-start {
   color: #3bafda;
   cursor: auto;
+}
+
+#start-console-btn {
+  color: #5e00da;
+  cursor: pointer;
+}
+
+#check-console-btn {
+  color: #5e00da;
+  cursor: pointer;
 }
 
 .running button,

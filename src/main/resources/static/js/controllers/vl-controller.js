@@ -1,6 +1,8 @@
 'use strict';
 var vl = angular.module('Vl', [])
   .controller('VlCtrl', function ($scope, VlService) {
+    $scope.isConsole = window.location.pathname.split('/')[2] == 'start_console_vl';
+    console.log($scope.isConsole);
     $scope.dirName = window.location.pathname.split('/')[3];
     $scope.frameId = window.location.pathname.split('/')[4];
     $scope.nameVL = "";
@@ -66,7 +68,7 @@ var vl = angular.module('Vl', [])
     }
 
     $scope.generateFn = function () {
-      VlService.generate($scope.algorithm)
+      VlService.generate($scope.algorithm, $scope.isConsole)
         .then(res => {
             showBtn();
             clearTable();
@@ -94,13 +96,26 @@ var vl = angular.module('Vl', [])
 
     $scope.checkFn = function () {
       var result = frame.Vlab.getResults();
-      VlService.check(result)
+      VlService.check(result, $scope.isConsole)
         .then(res => {
             frame.setPreviousSolution(result);
             $(".refresh-btn").css("display", "none");
             $(".check-btn").css("display", "none");
             $("#start-btn-start").attr("id", "start-btn");
             $("#check-answer").css("display", "inline-block");
+            $scope.check_answer = result;
+            $scope.check_result = res;
+          },
+          err => {
+            $(".run-server-button").attr("class", "run-server-button run-server-error");
+          });
+    }
+
+    $scope.checkConsoleFn = function () {
+      var result = frame.Vlab.getResults();
+      VlService.checkConsoleFn(result)
+        .then(res => {
+            frame.setPreviousSolution(result);
             $scope.check_answer = result;
             $scope.check_result = res;
           },
@@ -134,6 +149,7 @@ var vl = angular.module('Vl', [])
     };
 
     var showBtn = function () {
+      if ($scope.isConsole) return
       $("#start-btn").attr("id", "start-btn-start");
       $(".check-btn").css("display", "inline-block");
       $(".repeat-btn").css("display", "inline-block");
