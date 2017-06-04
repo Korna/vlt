@@ -1,8 +1,7 @@
 'use strict';
-var vl = angular.module('Vl', [])
-  .controller('VlCtrl', function ($scope, VlService) {
+var vl = angular.module('Vl', ['ngSanitize'])
+  .controller('VlCtrl', ['$scope','$sce', 'VlService', function ($scope, $sce, VlService) {
     $scope.isConsole = window.location.pathname.split('/')[2] == 'start_console_vl';
-    console.log($scope.isConsole);
     $scope.dirName = window.location.pathname.split('/')[3];
     $scope.frameId = window.location.pathname.split('/')[4];
     $scope.nameVL = "";
@@ -32,11 +31,10 @@ var vl = angular.module('Vl', [])
       .then(res => {
         $scope.generate = res;
         $scope.generate_result = res;
-
       });
     VlService.getAlgorithm($scope.dirName, $scope.frameId)
       .then(res => {
-        $scope.algorithm = res;
+        $scope.algorithm = $sce.trustAsHtml(res);
       });
     VlService.getCheck($scope.dirName, $scope.frameId)
       .then(res => {
@@ -58,17 +56,17 @@ var vl = angular.module('Vl', [])
         .then(res => {
           waitStartServer();
         });
-    }
+    };
 
     $scope.stopInteriorServer = function (url) {
       VlService.stopInteriorServer(url)
         .then(res => {
           setStyleForStoppedInteriorServer();
         });
-    }
+    };
 
     $scope.generateFn = function () {
-      VlService.generate($scope.algorithm, $scope.isConsole)
+      VlService.generate($("#algorithm").html(), $scope.isConsole)
         .then(res => {
             showBtn();
             clearTable();
@@ -78,7 +76,7 @@ var vl = angular.module('Vl', [])
           err => {
             $(".run-server-button").attr("class", "run-server-button run-server-error");
           });
-    }
+    };
 
     $scope.repeatFn = function () {
       VlService.repeat()
@@ -92,7 +90,7 @@ var vl = angular.module('Vl', [])
           err => {
             $(".run-server-button").attr("class", "run-server-button run-server-error");
           });
-    }
+    };
 
     $scope.checkFn = function () {
       var result = frame.Vlab.getResults();
@@ -109,7 +107,7 @@ var vl = angular.module('Vl', [])
           err => {
             $(".run-server-button").attr("class", "run-server-button run-server-error");
           });
-    }
+    };
 
     $scope.checkConsoleFn = function () {
       var result = frame.Vlab.getResults();
@@ -122,7 +120,7 @@ var vl = angular.module('Vl', [])
           err => {
             $(".run-server-button").attr("class", "run-server-button run-server-error");
           });
-    }
+    };
 
     var waitStartServer = function () {
       wait(2000);
@@ -176,4 +174,4 @@ var vl = angular.module('Vl', [])
       $("#start-btn").attr("id", "start-btn-wain-run-server");
     };
 
-  });
+  }]);

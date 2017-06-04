@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="/VLT/css/loader.css"/>
   <script type="text/javascript" src="/VLT/js/lib/jquery.js"></script>
   <script type="text/javascript" src="/VLT/js/lib/angular.min.js"></script>
+  <script type="text/javascript" src="/VLT/js/lib/angular-sanitize.js"></script>
   <script type="text/javascript" src="/VLT/js/lib/lodash.min.js"></script>
   <script type="text/javascript" src="/VLT/js/lib/jquery.form.js"></script>
   <script type="text/javascript" src="/VLT/js/lib/jquery.fs.selecter.min.js"></script>
@@ -32,7 +33,7 @@
   <div class="run-server-button" ng-controller="ServerStatusCtrl">
     <div class="server-div" ng-hide="$parent.isConsole">
       <div class="server-setting">
-        <label>Выбирите сервер:</label>
+        <label>Выберите сервер:</label>
         <label class="toggle">
           <input id="check-checkbox" type="checkbox" ng-change="setCheckBox()" ng-model="change"/>
           <span class="handle"></span>
@@ -43,7 +44,7 @@
           <span id='interior-start-btn' class='button interior-start-btn' data='Запустить сервер'
                 ng-click='runInteriorServer()'></span>
           <span id='interior-stop-btn' class='button interior-stop-btn' data='Остановить сервер'
-                ng-click='sto pInteriorServer(url)'></span>
+                ng-click='stopInteriorServer(url)'></span>
           <p>Внутренний сервер</p>
         </div>
         <div class='server-check' ng-show="!interior_server">
@@ -75,7 +76,7 @@
   </div>
 </div>
 <div id="generate_text">
-  Задание: <span class="text">{{generate_result.text}}</span>
+  Задание: <span class="text" ng-bind-html="generate_result.text"></span>
 </div>
 <div ng-app="iFrame" ng-controller="iFrameCtrl">
   <iframe id="labFrame" name="vl-frame"></iframe>
@@ -98,7 +99,7 @@
           </tr>
           <tr>
             <td>Вариант</td>
-            <td><span>{{generate_result.text}}</span></td>
+            <td><span ng-bind-html="generate_result.text"></span></td>
           </tr>
         </table>
       </div>
@@ -140,19 +141,19 @@
         <table class="table generate-table">
           <tr>
             <td>DefaultCode</td>
-            <td colspan="2"><span id="preText">{{generate.code}}</span></td>
+            <td colspan="2"><span id="preText" ng-bind-html="generate.code"></span></td>
           </tr>
           <tr>
             <td>DefaultText</td>
-            <td colspan="2"><span>{{generate.text}}</span></td>
+            <td colspan="2"><span ng-bind-html="generate.text"></span></td>
           </tr>
           <tr>
             <td>DeafaultInstructions</td>
-            <td colspan="2"><span>{{generate.instructions}}</span></td>
+            <td colspan="2"><span ng-bind-html="generate.instructions"></span></td>
           </tr>
           <tr>
             <td>Algorithm</td>
-            <td colspan="2"><span id="algorithm">{{algorithm}}</span></td>
+            <td colspan="2"><span id="algorithm" ng-bind-html="algorithm"></span></td>
           </tr>
         </table>
       </div>
@@ -160,19 +161,19 @@
     <div id="generate-result" ng-show="generate_result != null">
       <div class="panel panel-default">
         <div class="panel-heading">Ответ метода Generate</div>
-        <table class="table generate-table">
+        <table id="generate_result" class="table generate-table">
           <tr>
             <td>Code</td>
-            <td>{{generate_result.code}}</td>
+            <td id="generate_result_code" ng-bind-html="generate_result.code"></td>
           </tr>
           <tr>
             <td>Text</td>
-            <td>{{generate_result.text}}</td>
+            <td id="generate_result_text" ng-bind-html="generate_result.text"></td>
           </tr>
           <tr>
             <td>Instructions</td>
             <td>
-              <div>{{generate_result.instructions}}</div>
+              <div id="generate_result_instructions" ng-bind-html="generate_result.instructions"></div>
             </td>
           </tr>
         </table>
@@ -244,8 +245,8 @@
           <tr ng-repeat="ch in check">
             <td type="id">{{ch.id}}</td>
             <td type="time">{{ch.time}}</td>
-            <td type="input">{{ch.input}}</td>
-            <td type="output">{{ch.output}}</td>
+            <td type="input" ng-bind-html="ch.input"></td>
+            <td type="output" ng-bind-html="ch.output"></td>
           </tr>
           </tbody>
         </table>

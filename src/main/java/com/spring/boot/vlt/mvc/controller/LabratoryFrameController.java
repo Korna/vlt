@@ -4,6 +4,7 @@ import com.spring.boot.vlt.mvc.model.Trial;
 import com.spring.boot.vlt.mvc.model.frames.LaboratoryFrame;
 import com.spring.boot.vlt.mvc.model.vl.VirtLab;
 import com.spring.boot.vlt.mvc.service.LaboratoryFrameService;
+import jdk.nashorn.internal.parser.JSONParser;
 import org.dom4j.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -50,9 +51,6 @@ public class LabratoryFrameController {
         laboratoryFrameService.setFrameId(frameId);
         VirtLab virtLab = laboratoryFrameService.getVirtLab();
         trial.setVl(virtLab);
-//        return new ResponseEntity("{\"name\":" + virtLab.getName() + "," +
-//                "\"width\":" + virtLab.getWidth() + ","+
-//                "\"height\":" + virtLab.getHeight() + "}", HttpStatus.OK);
         return new ResponseEntity(virtLab, HttpStatus.OK);
     }
 
@@ -70,12 +68,12 @@ public class LabratoryFrameController {
         return new ResponseEntity(laboratoryFrameService.getGeneratingResult(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/get_algorithm/{dirName}/{frameId}", method = RequestMethod.GET, produces = "application/json")
-    public ResponseEntity<String> getAlgorithm(@PathVariable("dirName") String dirName, @PathVariable("frameId") String frameId) {
+    @RequestMapping(value = "/get_algorithm/{dirName}/{frameId}", method = RequestMethod.GET, produces = "text/plain")
+    public ResponseEntity<Object> getAlgorithm(@PathVariable("dirName") String dirName, @PathVariable("frameId") String frameId) {
         laboratoryFrameService.setDirName(dirName);
         laboratoryFrameService.setFrameId(frameId);
         String algorithm = laboratoryFrameService.readAlgorithm();
-        return new ResponseEntity("\"" + algorithm + "\"", HttpStatus.OK);
+        return new ResponseEntity(algorithm, HttpStatus.OK);
     }
 
     @RequestMapping(value = "/get_check/{dirName}/{frameId}", method = RequestMethod.GET, produces = "application/json")

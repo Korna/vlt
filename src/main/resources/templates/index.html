@@ -46,7 +46,7 @@
           <div class="panel-heading">Список виртуальных лабораторий</div>
           <form>
             <div>
-              <input type="text" class="search-input" ng-model="search" placeholder="Search"/>
+              <input type="text" class="search-input" ng-model="search" placeholder="Поиск"/>
             </div>
           </form>
           <table class="table" id="vl-list">
@@ -57,7 +57,7 @@
             <th class="commands">Команды</th>
             </thead>
             <tbody>
-            <tr dir-paginate="vl in vlCollection|orderBy:sortKey:reverse|filter:search|itemsPerPage:8">
+            <tr dir-paginate="vl in vlCollection|orderBy:sortKey:reverse|filter:search|itemsPerPage:4">
             <td>{{vl.name}}</td>
               <td>
                 <span class="button run-vl" data="Запуск" ng-click="showRunningForm(vl)"/>

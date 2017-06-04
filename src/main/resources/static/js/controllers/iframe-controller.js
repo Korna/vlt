@@ -1,4 +1,4 @@
-vl.controller("iFrameCtrl", function ($scope, iFrameService) {
+vl.controller("iFrameCtrl", function ($scope, $sce, iFrameService) {
   var ifrm = $('iframe')[0].contentWindow;
   iFrameService.getJs($scope.dirName, $scope.frameId)
     .then(res => {
@@ -24,11 +24,7 @@ vl.controller("iFrameCtrl", function ($scope, iFrameService) {
       ifrm.document.write('<input type="hidden" value="calcfake" id="calculatedCode"/>');
       ifrm.document.write('<input type="hidden" value="calcfake" id="calculatedText"/>');
       ifrm.document.write('<input type="hidden" value="prevsolfake" id="previousSolution"/>');
-      //$scope.$parent.isConsole ?
-      //  ifrm.document.write('<script type="text/javascript">ANT.setTypeServer('+$scope.$parent.isConsole+')</script>') :
-      //  ifrm.document.write('<script type="text/javascript">ANT.setTypeServer(false)</script>') ;
       ifrm.document.write('<script type="text/javascript">' +
-        'ANT.setTypeServer('+$scope.$parent.isConsole+');' +
         'Vlab.init();' +
         'function setGenerateCode(val){$("#preGeneratedCode").val(val) };' +
         'function setPreviousSolution(val){$("#previousSolution").val(val) };' +

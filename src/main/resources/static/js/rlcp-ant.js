@@ -1,5 +1,5 @@
 var ANT = new Object();
-var isConsole = false;
+var isConsole = window.location.pathname.split('/')[2] == 'start_console_vl';
 
 ANT.calculate = function () {
   var result = Vlab.getResults();

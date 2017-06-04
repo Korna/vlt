@@ -42,11 +42,15 @@ vl.factory('VlService', function ($http, $q) {
     },
 
     getAlgorithm: (dir, frame) => {
-      return $http.get('/VLT/get_algorithm/' + dir + '/' + frame)
+      return $http.get('/VLT/get_algorithm/' + dir + '/' + frame, {transformResponse: [function (data) {
+        return data;
+      }]})
         .then(res => {
             return res.data;
           },
           err => {
+            console.log('err');
+            console.log(err);
             return $q.reject(err);
           });
     },
