@@ -108,14 +108,30 @@ public class LaboratoryFrameService {
     }
 
     private GeneratingResult readGeneratingResult(Node node) {
+        Node code = node.selectSingleNode("LaboratoryFrame/Generator/ByDefault/Code/comment()");
+        Node text = node.selectSingleNode("LaboratoryFrame/Generator/ByDefault/Text/comment()");
+        Node instructions = node.selectSingleNode("LaboratoryFrame/Generator/ByDefault/Instructions/comment()");
+        if (code == null) {
+            code = node.selectSingleNode("LaboratoryFrame/Generator/ByDefault/Code");
+        }
+        if (text == null) {
+            text = node.selectSingleNode("LaboratoryFrame/Generator/ByDefault/Text");
+        }
+        if (instructions == null) {
+            instructions = node.selectSingleNode("LaboratoryFrame/Generator/ByDefault/Instructions");
+        }
         return new GeneratingResult(
-                node.selectSingleNode("LaboratoryFrame/Generator/ByDefault/Code/comment()").getText(),
-                node.selectSingleNode("LaboratoryFrame/Generator/ByDefault/Text/comment()").getText(),
-                node.selectSingleNode("LaboratoryFrame/Generator/ByDefault/Instructions/comment()").getText());
+                code.getText(),
+                text.getText(),
+                instructions.getText());
     }
 
     private String readAlgorithm(Node node) {
-        return node.selectSingleNode("LaboratoryFrame/Generator/Algorithm/comment()").getText();
+        Node algorithm = node.selectSingleNode("LaboratoryFrame/Generator/Algorithm/comment()");
+        if (algorithm == null) {
+            algorithm = node.selectSingleNode("LaboratoryFrame/Generator/Algorithm");
+        }
+        return algorithm.getText();
     }
 
     private void readAllTests(List<ConditionForChecking> checks, List<Node> check) {
@@ -125,11 +141,19 @@ public class LaboratoryFrameService {
     }
 
     private ConditionForChecking readLaboratoryTest(Node node) {
+        Node input = node.selectSingleNode("LaboratoryTestInput/comment()");
+        Node output = node.selectSingleNode("LaboratoryTestOutput/comment()");
+        if (input == null) {
+            input = node.selectSingleNode("LaboratoryTestInput");
+        }
+        if (output == null) {
+            output = node.selectSingleNode("LaboratoryTestOutput");
+        }
         return new ConditionForChecking(
                 Integer.parseInt(node.valueOf("@TestID")),
                 Integer.parseInt(node.valueOf("@LimitOnTest")),
-                node.selectSingleNode("LaboratoryTestInput/comment()").getText(),
-                node.selectSingleNode("LaboratoryTestOutput/comment()").getText()
+                input.getText(),
+                output.getText()
         );
     }
 
@@ -145,7 +169,7 @@ public class LaboratoryFrameService {
         try {
             framesXml = saxReader.read(xml);
         } catch (DocumentException e) {
-            logger.error("File " + xml.getAbsolutePath() + " not foud", e.fillInStackTrace());
+                logger.error("File " + xml.getAbsolutePath() + " not foud", e.fillInStackTrace());
         } catch (MalformedURLException e) {
             e.printStackTrace();
         }
