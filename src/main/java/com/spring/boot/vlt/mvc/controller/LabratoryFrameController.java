@@ -4,7 +4,6 @@ import com.spring.boot.vlt.mvc.model.Trial;
 import com.spring.boot.vlt.mvc.model.frames.LaboratoryFrame;
 import com.spring.boot.vlt.mvc.model.vl.VirtLab;
 import com.spring.boot.vlt.mvc.service.LaboratoryFrameService;
-import jdk.nashorn.internal.parser.JSONParser;
 import org.dom4j.Document;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
