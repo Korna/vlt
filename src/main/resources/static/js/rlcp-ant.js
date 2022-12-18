@@ -10,16 +10,15 @@ ANT.calculate = function () {
     type: "POST",
     data: (
     {
-      instructions: result,
+      instructions: JSON.stringify(result),
       condition: Vlab.getCondition()
     }
     ),
-    dataType: "text",
-    success: function (text) {
-      var json = JSON.parse(text);
+    success: function (json) {
       parent.setCalculateResult(result, json);
       $("#calculatedCode").val(json.code);
       $("#calculatedText").val(json.text);
+
       Vlab.calculateHandler(json.code);
     },
     error: function () {
