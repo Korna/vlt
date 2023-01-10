@@ -19,7 +19,7 @@ ANT.calculate = function () {
       $("#calculatedCode").val(json.code);
       $("#calculatedText").val(json.text);
 
-      Vlab.calculateHandler(json.code);
+      Vlab.calculateHandler(json.text, json.code);
     },
     error: function () {
       $(".run-server-button").attr("class", "run-server-button run-server-error");

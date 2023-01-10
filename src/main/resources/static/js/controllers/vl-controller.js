@@ -143,6 +143,11 @@ var vl = angular.module('Vl', ['ngSanitize'])
 
     var setGenerate = function (val_generate) {
       $scope.generate_result = val_generate;
+      console.log("vl-controller. val");
+      console.log(val_generate);
+      console.log("code.");
+      console.log(val_generate.code);
+
       frame.setGenerateCode(val_generate.code);
     };
 
