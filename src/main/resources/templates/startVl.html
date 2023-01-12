@@ -27,6 +27,13 @@
       vlCtrl.$apply();
     }
   </script>
+  <script>
+    function setHeight() {
+      var child = document.getElementById('labFrame');
+      child.style.height = "700px";
+      child.style.width = "900px";
+    }
+  </script>
 </head>
 <body ng-controller="VlCtrl">
 <div class="start">
@@ -79,7 +86,7 @@
   Задание: <span class="text" ng-bind-html="generate_result.text"></span>
 </div>
 <div ng-app="iFrame" ng-controller="iFrameCtrl">
-  <iframe id="labFrame" name="vl-frame"></iframe>
+  <iframe id="labFrame" name="vl-frame" onload="setHeight()"></iframe>
 </div>
 
 
